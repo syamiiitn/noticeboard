@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { DataService } from '../data.service';
-import * as jsPDF from 'jspdf';
+//import * as jsPDF from 'jspdf';
 
 @Component({
   selector: 'app-studentnotifications',
@@ -20,12 +20,12 @@ export class StudentnotificationsComponent implements OnInit {
     this.data=this.ds.sendn();
  
   }
-  downloadpdf()
-  {
-    var doc=new jsPDF();
-    doc.text(20,20,'welcome guru whatsup!');
+  // downloadpdf()
+  // {
+  //   var doc=new jsPDF();
+  //   doc.text(20,20,'welcome guru whatsup!');
 
-    doc.save('test.pdf');
-    }
+  //   doc.save('test.pdf');
+  //   }
 
 }
