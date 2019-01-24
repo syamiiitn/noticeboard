@@ -1,0 +1,45 @@
+<div class="container">
+    <div class="row mt-5">
+        <div class="jumbotron">
+            <table class="table">
+                <thead>
+                    <th>Student profile</th>
+                </thead>
+                <tr *ngFor="let i of data1">
+                    <td>Name</td>
+                    <td>{{i.firstname}}&nbsp;{{i.middlename}}&nbsp;{{i.lastname}}</td>
+                </tr>
+
+                <tr *ngFor="let i of data1">
+                    <td>Email</td>
+                    <td>{{i.email}}</td>
+                </tr>
+
+                <tr *ngFor="let i of data1">
+                    <td>UserId</td>
+                    <td>{{i.userid}}</td>
+                </tr>
+
+                <tr *ngFor="let i of data1">
+                    <td>Dateofbirth</td>
+                    <td>{{i.dob}}</td>
+                </tr>
+
+                <tr *ngFor="let i of data1">
+                    <td>Gender</td>
+                    <td>{{i.gender}}</td>
+                </tr>
+
+                <tr *ngFor="let i of data1">
+                    <td>Branch</td>
+                    <td>{{i.branch}}</td>
+                </tr>
+
+                <tr *ngFor="let i of data1">
+                    <td>Category</td>
+                    <td>{{i.category}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

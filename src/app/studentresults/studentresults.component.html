@@ -1,0 +1,26 @@
+<div class="container mt-3">
+    <input type="text" placeholder="Search..">
+  <div class="jumbotron">
+    <table class="table">
+      <thead class="thead-dark">
+        <th>Name</th>
+        <th>English</th>
+        <th>Physics</th>
+        <th>Chemistry</th>
+        <th>Engg drawing</th>
+        <th>Maths</th>
+      </thead>
+      <tr *ngFor="let i of (data | paginate:{itemsPerPage:4,currentPage:p})">
+        <td>{{i.sname}}</td>
+        <td>{{i.english}}</td>
+        <td>{{i.physics}}</td>
+        <td>{{i.chemistry}}</td>
+        <td>{{i.enggdrawing}}</td>
+        <td>{{i.maths}}</td> 
+        <button type="button" class="mx-auto d-block" class="btn btn-success" (click)="downloadpdf()">download</button>
+        </tr>
+        </table>
+        <pagination-controls (pageChange)="p=$event"></pagination-controls>
+
+  </div>
+</div>

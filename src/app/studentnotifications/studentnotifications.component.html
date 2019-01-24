@@ -1,0 +1,21 @@
+<div class="container mt-3">
+    <input type="text" name="searchTerm" placeholder="Search.." [(ngModel)]="searchTerm">
+  <div class="jumbotron">
+    <h2>Notifications</h2>
+    <table class="table">
+    <thead class="thead-dark">
+      <th>Notification</th>
+      <th>Date</th>
+    </thead>
+    <tr *ngFor="let i of (data | search:searchTerm | paginate:{itemsPerPage:4,currentPage:p})">
+      <td>{{i.notification}}</td>
+      <td>{{i.date}}</td>
+      <button type="button" class="mx-auto d-block" class="btn btn-success" (click)="downloadpdf()">download</button>
+    </tr>
+  </table>
+  <pagination-controls (pageChange)="p=$event"></pagination-controls>
+  </div>
+</div>
+
+
+
