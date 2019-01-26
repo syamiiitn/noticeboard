@@ -20,6 +20,7 @@ export class StudentresultsComponent implements OnInit {
   chemistry:any;
   enggdrawing:any;
   maths:any;
+  searchingTerm:any;
 
   ngOnInit() 
   {

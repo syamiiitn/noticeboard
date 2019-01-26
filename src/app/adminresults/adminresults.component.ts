@@ -21,6 +21,7 @@ export class AdminresultsComponent implements DoCheck,OnInit  {
   chemistry:any;
   enggdrawing:any;
   maths:any;
+  searchingTerm:any;
   constructor(private ds:DataService, private http:HttpClient){
 
   }
