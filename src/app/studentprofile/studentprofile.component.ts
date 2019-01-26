@@ -9,7 +9,17 @@ import { HttpClient } from '@angular/common/http';
 })
 export class StudentprofileComponent implements OnInit {
 
-  data1:object[]=[];
+  data1:any={};
+  data2:any={};
+  firstname:any;
+  middlename:any;
+  lastname:any;
+  email:any;
+  userid:any;
+  dob:any;
+  branch:any;
+  gender:any;
+  category:any;
   constructor(private ds:DataService,private http:HttpClient) { }
 
   ngOnInit() {
@@ -18,5 +28,13 @@ export class StudentprofileComponent implements OnInit {
       this.data1=temp;
   })
 }
-
+update(i)
+  {
+    this.data2=i;
+    
+  }
+  add()
+  {
+    this.http.put('student/studentprofile',this.data2).subscribe();
+  }
 }

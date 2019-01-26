@@ -1,6 +1,6 @@
 import { Component, OnInit, DoCheck } from '@angular/core';
 import { DataService } from '../data.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-adminnotifications',
@@ -9,10 +9,12 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AdminnotificationsComponent implements OnInit,DoCheck  {
   p:number;
-  arr:object[]=[];
-  arr2:object[]=[];
+  arr:any={};
+  arr2:any={};
   notification:any;
   date:any;
+  searchTerm:any;
+  
 
   sen:object[]=[];
   constructor(private ds:DataService, private http:HttpClient){
@@ -20,13 +22,14 @@ export class AdminnotificationsComponent implements OnInit,DoCheck  {
   }
  
   ngOnInit() {
+    this.http.get<any>('admin/adminnotifications').subscribe(temp=>{
+      this.arr=temp;
+    })
     }
     
 ngDoCheck()
 {
-  this.http.get<any>('admin/adminnotifications').subscribe(temp=>{
-    this.arr=temp;
-  })
+ 
 }
   addData(v)
   {
@@ -34,18 +37,19 @@ ngDoCheck()
     this.notification='';
     this.date='';
     console.log(v);
-    this.http.post<any>('admin/adminnotifications',v).subscribe(temp=>{
-      this.arr=temp;
-    })
+    this.http.post<any>('admin/adminnotifications',v).subscribe()
     
   }
   delete(v)
     {
-this.arr.splice(v,1);
+      var httpoptions={headers:new HttpHeaders({'Content-Type':'application/json'}),body:v};
+      this.http.delete<any[]>('admin/adminnotifications',httpoptions).subscribe();
     }
-    edit(y)
+    edit(i)
     {
-      this.arr2=y;
+      this.arr2=i;
+      console.log(i);
+      
     }
 
     send(y)
@@ -54,9 +58,11 @@ this.arr.splice(v,1);
         this.ds.receiveData(y);
         this.ds.receiven(this.sen);
     }
-    save(v)
+    save()
     {
-
+      console.log(this.arr2);
+      
+      this.http.put('admin/adminnotifications',this.arr2).subscribe();
     }
 }
 

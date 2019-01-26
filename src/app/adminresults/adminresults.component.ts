@@ -1,7 +1,7 @@
 import { Component, OnInit, DoCheck } from '@angular/core';
 import { DataService } from '../data.service';
 import { from } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-adminresults',
@@ -10,32 +10,35 @@ import { HttpClient } from '@angular/common/http';
 })
 
 
-export class AdminresultsComponent implements DoCheck  {
+export class AdminresultsComponent implements DoCheck,OnInit  {
   p:number;
-  arr:object[]=[];
-  arr2:object[]=[];
-  arr3:object[]=[];
-  sname:string;
-  english:string;
-  physics:string;
-  chemistry:string;
-  enggdrawing:string;
-  maths:string;
+  arr:any={};
+  arr2:any={};
+  arr3:any={};
+  sname:any;
+  english:any;
+  physics:any;
+  chemistry:any;
+  enggdrawing:any;
+  maths:any;
   constructor(private ds:DataService, private http:HttpClient){
 
   }
-  ngDoCheck()
-  {
+
+  ngOnInit() {
     this.http.get<any>('admin/adminresults').subscribe(temp=>{
       this.arr=temp;
     })
+    }
+
+  ngDoCheck()
+  {
+    
   }
   addData(v)
   {
    // this.arr.push(v);
-   this.http.post<any>('admin/adminresults',v).subscribe(temp=>{
-    this.arr=temp;
-  })
+   this.http.post<any>('admin/adminresults',v).subscribe()
     this.sname='';
     this.english='';
     this.physics='';
@@ -46,11 +49,14 @@ export class AdminresultsComponent implements DoCheck  {
   }
   delete(v)
     {
-this.arr.splice(v,1);
+      var httpoptions={headers:new HttpHeaders({'Content-Type':'application/json'}),body:v};
+      this.http.delete<any[]>('admin/adminresults',httpoptions).subscribe();
     }
-    edit(y)
+    edit(i)
     {
-      this.arr2=y;
+      this.arr2=i;
+      console.log(this.arr2);
+      
     }
     send(y)
     {
@@ -58,9 +64,10 @@ this.arr.splice(v,1);
         this.ds.receiveData(y);
         this.ds.receiver(this.arr3);
     }
-    save(v)
+    save()
     {
-
+      console.log(this.arr2);
+      this.http.put<any>('admin/adminresults',this.arr2).subscribe();
     }
 
 }

@@ -25,7 +25,7 @@ const routes: Routes = [
                           {path:'login',component:LoginComponent}
                         ]},
                           {path:'admin',component:AdminComponent,
-                            children:[
+                            children:[{path:'',component:AdminprofileComponent},
                           {path:'adminprofile',component:AdminprofileComponent},
                           {path:'adminnotifications',component:AdminnotificationsComponent},
                           {path:'adminresults',component:AdminresultsComponent},
@@ -33,7 +33,8 @@ const routes: Routes = [
                       },
 
                       {path:'student',component:StudentComponent,
-                        children:[{path:'studentprofile',component:StudentprofileComponent},
+                        children:[{path:'',component:StudentprofileComponent},
+                        {path:'studentprofile',component:StudentprofileComponent},
                         {path:'studentnotifications',component:StudentnotificationsComponent},
                         {path:'studentresults',component:StudentresultsComponent}
                         ]},

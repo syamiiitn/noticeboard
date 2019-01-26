@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { DataService } from '../data.service';
+
+import { HttpClient } from '@angular/common/http';
 //import * as jsPDF from 'jspdf';
 
 @Component({
@@ -10,14 +11,21 @@ import { DataService } from '../data.service';
 })
 export class StudentnotificationsComponent implements OnInit {
 
-  constructor(private ds:DataService,@Inject('Window') private window:Window) { }
+  constructor(@Inject('Window') private window:Window, private http:HttpClient) { }
   p:number;
-  data:object;
-  data1:object[]=[];
-  ngOnInit() 
+  data:any={};
+  data1:any={};
+  notification:any;
+  date:any;
+  searchTerm:any;
+  
+  ngOnInit():void
   {
     
-    this.data=this.ds.sendn();
+   this.http.get('student/studentnotifications').subscribe(temp=>this.data=temp)
+   console.log(this.data)
+   
+    
  
   }
   // downloadpdf()

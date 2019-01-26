@@ -8,7 +8,16 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./adminprofile.component.css']
 })
 export class AdminprofileComponent implements OnInit {
-  data:object[]=[];
+  data:any={};
+  data2:any={};
+  firstname:any;
+  middlename:any;
+  lastname:any;
+  email:any;
+  userid:any;
+  dob:any;
+  gender:any;
+  category:any;
   constructor(private ds:DataService,private http:HttpClient) { }
 
   ngOnInit() {
@@ -16,6 +25,15 @@ export class AdminprofileComponent implements OnInit {
       this.data=temp;
     })
     
+  }
+  update(i)
+  {
+    this.data2=i;
+    
+  }
+  add()
+  {
+    this.http.put('admin/adminprofile',this.data2).subscribe();
   }
 
 }

@@ -21,6 +21,7 @@ import { AboutusComponent } from './aboutus/aboutus.component';
 import { from } from 'rxjs';
 import { CarouselComponent } from './carousel/carousel.component';
 import { SearchPipe } from './search.pipe';
+import { SearchresultsPipe } from './searchresults.pipe';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { SearchPipe } from './search.pipe';
     StudentresultsComponent,
     AboutusComponent,
     CarouselComponent,
-    SearchPipe
+    SearchPipe,
+    SearchresultsPipe
   ],
   imports: [
     BrowserModule,FormsModule,

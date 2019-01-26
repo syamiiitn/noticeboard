@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { DataService } from '../data.service';
+import { HttpClient } from '@angular/common/http';
 //import * as jsPDF from 'jspdf';
 
 @Component({
@@ -10,13 +11,19 @@ import { DataService } from '../data.service';
 })
 export class StudentresultsComponent implements OnInit {
 
-  constructor(private ds:DataService,@Inject('Window') private window:Window) { }
-  p:number;
-data:object;
+  constructor(private http:HttpClient,@Inject('Window') private window:Window) { }
+  p:any;
+  data:any;
+  sname:any;
+  english:any;
+  physics:any;
+  chemistry:any;
+  enggdrawing:any;
+  maths:any;
 
   ngOnInit() 
   {
-    this.data=this.ds.sendr();
+    this.http.get('student/studentresults').subscribe(temp=>this.data=temp)
   
   }
  

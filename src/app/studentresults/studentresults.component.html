@@ -1,5 +1,5 @@
 <div class="container mt-3">
-    <input type="text" placeholder="Search..">
+  <input type="text" name="searchingTerm" placeholder="Search here.." [(ngModel)]="searchingTerm">
   <div class="jumbotron">
     <table class="table">
       <thead class="thead-dark">
@@ -10,7 +10,7 @@
         <th>Engg drawing</th>
         <th>Maths</th>
       </thead>
-      <tr *ngFor="let i of (data | paginate:{itemsPerPage:4,currentPage:p})">
+      <tr *ngFor="let i of (data | searchresults:searchingTerm | paginate:{itemsPerPage:4,currentPage:p})">
         <td>{{i.sname}}</td>
         <td>{{i.english}}</td>
         <td>{{i.physics}}</td>

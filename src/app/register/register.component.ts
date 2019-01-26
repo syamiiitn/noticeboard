@@ -12,6 +12,16 @@ import { Router } from '@angular/router';
 export class RegisterComponent  {
 
   arr:object[]=[];
+  firstname:any;
+  middlename:any;
+  lastname:any;
+  email:any;
+  userid:any;
+  password:any;
+  dob:any;
+  branch:any;
+  gender:any;
+  category:any;
   constructor(private rs:RegisterService,private http:HttpClient,private router:Router) {}
   add(v)
   {

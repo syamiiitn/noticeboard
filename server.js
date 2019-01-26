@@ -6,7 +6,7 @@ var bcrypt=require('bcryptjs');
 //for getting profile with user name
 var s;
 //to convert string id into object id
-//var mongoose=require('mongoose');
+var mongoose=require('mongoose');
 
 //getting mongodb client object
 var mongoclient=require('mongodb').MongoClient;
@@ -132,7 +132,7 @@ app.post('/admin/adminnotifications',(req,res,next)=>{
             console.log('error in adding notification');
         }
         else{
-            res.send('notification added succesfully');
+            res.json('notification added succesfully');
         }
     })
 })
@@ -145,7 +145,7 @@ app.post('/admin/adminresults',(req,res,next)=>{
             console.log('error in adding results');
         }
         else{
-            res.send('results added succesfully');
+            res.json('results added succesfully');
         }
     })
 })
@@ -215,39 +215,177 @@ app.get('/student/studentresults',(req,res,next)=>{
 
 
 
-//update operation
-// app.put('/admin/adminnotifications',(req,res)=>{
-//     //object received from client
-//     console.log(req.body);
-//     //converting string id into objectid
-//     console.log(req.body._id);
-//     var objectid=new mongoose.Types.ObjectId(req.body._id);
-//     console.log(objectid);
-//     //updating document in database
-//     dbo.collection('notifications').update({_id:objectid},{$set:{notification:req.body.notification,date:req.body.date}},(err,success)=>
-//     {
-//         if(err)
-//         {
-//             console.log(err)
-//         }
-//         else
-//         {
-//             dbo.collection('notifications').find({}).toArray((err,data)=>
-//             {
-//                 if(err)
-//                 {
-//                     console.log('problem in sending')
-//                 }
-//                 else{
-//                     res.json(data);
-//                 }
-//             })
-//         }
-//     })
-// })
+//admin notifications update operation
+app.put('/admin/adminnotifications',(req,res)=>{
+    //object received from client
+    console.log(req.body);
+    //converting string id into objectid
+    console.log(req.body._id);
+    var objectid=new mongoose.Types.ObjectId(req.body._id);
+    console.log(objectid);
+    //updating document in database
+    dbo.collection('notifications').update({_id:objectid},{$set:{notification:req.body.notification,date:req.body.date}},(err,success)=>
+    {
+        if(err)
+        {
+            console.log(err)
+        }
+        else
+        {
+            dbo.collection('notifications').find({}).toArray((err,data)=>
+            {
+                if(err)
+                {
+                    console.log('problem in sending')
+                }
+                else{
+                    res.json(data);
+                }
+            })
+        }
+    })
+})
+
+//admin results update operation
+app.put('/admin/adminresults',(req,res)=>{
+    //object received from client
+    console.log(req.body);
+    //converting string id into objectid
+    console.log(req.body._id);
+    var objectid=new mongoose.Types.ObjectId(req.body._id);
+    console.log(objectid);
+    //updating document in database
+    dbo.collection('results').update({_id:objectid},{$set:{sname:req.body.sname,
+                                                           english:req.body.english,
+                                                           physics:req.body.physics,
+                                                           chemistry:req.body.chemistry,
+                                                           enggdrawing:req.body.enggdrawing,
+                                                           maths:req.body.maths    
+                                                        }},(err,success)=>
+    {
+        if(err)
+        {
+            console.log(err)
+        }
+        else
+        {
+            dbo.collection('results').find({}).toArray((err,data)=>
+            {
+                if(err)
+                {
+                    console.log('problem in sending')
+                }
+                else{
+                    res.json(data);
+                }
+            })
+        }
+    })
+})
+
+//delete operation for admin notifications
+app.delete('/admin/adminnotifications',(req,res)=>{
+    dbo.collection('notifications').remove({notification:req.body.notification},(err,success)=>{
+        if(err)
+        {
+            console.log(err);
+        }
+        else{
+            res.json('deleted successfully')
+        }
+    })
+})
 
 
+//delete operation for admin results
+app.delete('/admin/adminresults',(req,res)=>{
+    dbo.collection('results').remove({sname:req.body.sname},(err,success)=>{
+        if(err)
+        {
+            console.log(err);
+        }
+        else{
+            res.json('deleted successfully')
+        }
+    })
+})
 
+
+//updating adminprofile
+app.put('/admin/adminprofile',(req,res)=>{
+    //object received from client
+    console.log(req.body);
+    //converting string id into objectid
+    console.log(req.body._id);
+    var objectid=new mongoose.Types.ObjectId(req.body._id);
+    console.log(objectid);
+    //updating document in database
+    dbo.collection('registration').update({_id:objectid},{$set:{firstname:req.body.firstname,
+                                                           middlename:req.body.middlename,
+                                                           lastname:req.body.lastname,
+                                                           email:req.body.email,
+                                                           dob:req.body.dob,
+                                                           gender:req.body.gender    
+                                                        }},(err,success)=>
+    {
+        if(err)
+        {
+            console.log(err)
+        }
+        else
+        {
+            dbo.collection('registration').find({}).toArray((err,data)=>
+            {
+                if(err)
+                {
+                    console.log('problem in updating')
+                }
+                else{
+                    res.json(data);
+                }
+            })
+        }
+    })
+})
+
+
+//updating adminprofile
+app.put('/student/studentprofile',(req,res)=>{
+    //object received from client
+    console.log(req.body);
+    //converting string id into objectid
+    console.log(req.body._id);
+    var objectid=new mongoose.Types.ObjectId(req.body._id);
+    console.log(objectid);
+    //updating document in database
+    dbo.collection('registration').update({_id:objectid},{$set:{firstname:req.body.firstname,
+                                                           middlename:req.body.middlename,
+                                                           lastname:req.body.lastname,
+                                                           email:req.body.email,
+                                                           dob:req.body.dob,
+                                                           gender:req.body.gender,
+                                                           branch:req.body.branch    
+                                                        }},(err,success)=>
+    {
+        if(err)
+        {
+            console.log(err)
+        }
+        else
+        {
+            dbo.collection('registration').find({}).toArray((err,data)=>
+            {
+                if(err)
+                {
+                    console.log('problem in updating')
+                }
+                else{
+                    res.json(data);
+                }
+            })
+        }
+    })
+})
 
 app.listen(process.env.PORT || 8080,()=>{
     console.log('server is listening on port 8080.....')
