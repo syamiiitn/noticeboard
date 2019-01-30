@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '../data.service';
 import { HttpClient } from '@angular/common/http';
+import { ProfileService } from '../profile.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-studentprofile',
@@ -9,7 +10,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class StudentprofileComponent implements OnInit {
 
-  data1:any={};
+  data1:any=[];
   data2:any={};
   firstname:any;
   middlename:any;
@@ -20,13 +21,20 @@ export class StudentprofileComponent implements OnInit {
   branch:any;
   gender:any;
   category:any;
-  constructor(private ds:DataService,private http:HttpClient) { }
+  constructor(private http:HttpClient, private profileService:ProfileService, private router:Router) { }
 
   ngOnInit() {
-    //this.ds.getData1().subscribe(temp=>{this.data1=temp;})
-    console.log(this.data1);this.http.get<any>('student/studentprofile').subscribe(temp=>{
-      this.data1=temp;
-  })
+    this.profileService.getStudentProfile().subscribe(temp=>{
+      if(temp['message']=='token is not valid')
+      {
+        alert(temp['message'])
+        this.router.navigate(['home/login'])
+      }
+      else
+      {
+        this.data1=temp;
+      }
+      })
 }
 update(i)
   {
@@ -35,6 +43,6 @@ update(i)
   }
   add()
   {
-    this.http.put('student/studentprofile',this.data2).subscribe();
+    this.profileService.editStudentProfile(this.data2);
   }
 }

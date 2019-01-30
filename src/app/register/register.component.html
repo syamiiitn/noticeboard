@@ -1,7 +1,7 @@
 <div class="container">
-  <div class="row mt-5">
+  <div class="row">
     <div class="col-sm-3"></div>
-    <div class="col-sm-6 bg-secondary text-light mt-5">
+    <div class="col-sm-6 bg-secondary text-light mt-4">
       <h2 class="mt-3">Register here</h2>
       <form #ref="ngForm" (ngSubmit)="add(ref.value)">
         <div class="form-group">
@@ -44,7 +44,7 @@
               </div>
             </div>
 
-              <label class="mt-3">Branch:</label>
+              <label class="mt-3">Branch:</label>&nbsp;(not required for admin)
               <div class="form-group" style="width:250px">
               <select class=" form-control" name="branch" [(ngModel)]=branch>
                 <option>select branch</option>

@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { DataService } from '../data.service';
 import { HttpClient } from '@angular/common/http';
+import { ResultsService } from '../results.service';
+import { Router } from '@angular/router';
 //import * as jsPDF from 'jspdf';
 
 @Component({
@@ -11,7 +12,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class StudentresultsComponent implements OnInit {
 
-  constructor(private http:HttpClient,@Inject('Window') private window:Window) { }
+  constructor(private http:HttpClient, private resultService:ResultsService, @Inject('Window') private window:Window, private router:Router) { }
   p:any;
   data:any;
   sname:any;
@@ -24,7 +25,17 @@ export class StudentresultsComponent implements OnInit {
 
   ngOnInit() 
   {
-    this.http.get('student/studentresults').subscribe(temp=>this.data=temp)
+    this.resultService.getStudentResults().subscribe(temp=>{
+      if(temp['message']=='token is not valid')
+      {
+        alert(temp['message'])
+        this.router.navigate(['home/login'])
+      }
+      else
+      {
+        this.data=temp;
+      }
+      })
   
   }
  

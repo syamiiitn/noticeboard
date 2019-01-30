@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {FormsModule} from '@angular/forms'
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import {NgxPaginationModule} from 'ngx-pagination';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -22,6 +22,7 @@ import { from } from 'rxjs';
 import { CarouselComponent } from './carousel/carousel.component';
 import { SearchPipe } from './search.pipe';
 import { SearchresultsPipe } from './searchresults.pipe';
+import { AuthorizationService } from './authorization.service';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,7 @@ import { SearchresultsPipe } from './searchresults.pipe';
     AppRoutingModule,HttpClientModule,
     NgxPaginationModule
   ],
-  providers: [],
+  providers: [{provide:HTTP_INTERCEPTORS,useClass:AuthorizationService,multi:true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

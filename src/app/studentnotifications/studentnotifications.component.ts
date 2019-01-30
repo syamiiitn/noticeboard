@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
-
 import { HttpClient } from '@angular/common/http';
+import { NotificationsService } from '../notifications.service';
+import { Router } from '@angular/router';
 //import * as jsPDF from 'jspdf';
 
 @Component({
@@ -11,9 +12,9 @@ import { HttpClient } from '@angular/common/http';
 })
 export class StudentnotificationsComponent implements OnInit {
 
-  constructor(@Inject('Window') private window:Window, private http:HttpClient) { }
+  constructor(@Inject('Window') private window:Window, private http:HttpClient, private notificationService:NotificationsService, private router:Router) { }
   p:number;
-  data:any={};
+  data:any=[];
   data1:any={};
   notification:any;
   date:any;
@@ -21,12 +22,17 @@ export class StudentnotificationsComponent implements OnInit {
   
   ngOnInit():void
   {
-    
-   this.http.get('student/studentnotifications').subscribe(temp=>this.data=temp)
-   console.log(this.data)
-   
-    
- 
+    this.notificationService.getStudentNotifications().subscribe(temp=>{
+      if(temp['message']=='token is not valid')
+      {
+        alert(temp['message'])
+        this.router.navigate(['home/login'])
+      }
+      else
+      {
+        this.data=temp;
+      }
+      })
   }
   // downloadpdf()
   // {

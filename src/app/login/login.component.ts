@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +11,7 @@ import { HttpClient } from '@angular/common/http';
 export class LoginComponent implements OnInit {
 
   
-  constructor(private router:Router,private http:HttpClient) {}
+  constructor(private router:Router,private http:HttpClient, private ds:DataService) {}
   userid:any;
   password:any;
 ngOnInit()
@@ -18,6 +19,7 @@ ngOnInit()
 }
 sign(v)
 {
+//old login code
 //   if(v.userid=="admin")
 //   {
 //     this.router.navigate(["admin"])
@@ -27,17 +29,7 @@ sign(v)
 //   }
 // }
 
-this.http.post('home/login',v).subscribe(temp=>{
-  alert(temp);
-  if(temp=="login success as admin"){
-    this.router.navigate(['admin']);
-  }
-  if(temp=="login success as student"){
-    this.router.navigate(['student']);
-  }
-})
-
-
-
+//console.log(v);
+this.ds.receiveFromLogin(v);
 }
 }

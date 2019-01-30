@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import { from, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -11,33 +12,35 @@ export class DataService {
     obj3:object[]=[];
     notif:object[]=[];
     res:object[]=[];
-  constructor(private http:HttpClient,router:Router) { }
-  receiveData(v)
+  constructor(private http:HttpClient, private router:Router) { }
+  //post method of registration
+  receiveFromReg(v)
   {
-    this.obj3=v;
-    console.log(this.obj3)
+    this.http.post('api/home/register',v).subscribe(temp=>{alert(temp);if(temp==='registered successfully')
+  {
+    this.router.navigate(['home/login']);
+  }
+  if(temp==='user name already existed. choose another name.')
+  {
+    this.router.navigate(['home/register']);
+  }
+  })
   }
 
-  
-  getData1():Observable<any>
+  //post method of login
+  receiveFromLogin(v)
   {
-    return this.http.get<any>("assets/studentregistrationform.json");
-  }
-  receiven(v)
-  {
-    this.notif=v;
-  }
-  sendn()
-  {
-    return this.notif;
-  }
-
-  receiver(v)
-  {
-    this.res=v;
-  }
-  sendr()
-  {
-    return this.res;
+    this.http.post('api/home/login',v).subscribe(temp=>
+      {
+        localStorage.setItem('idToken',temp['idToken'])
+        if(temp['info']=="login success as admin") {
+          alert(temp['info']);
+          this.router.navigate(['admin']);
+        }
+        if(temp['info']=="login success as student") {
+          alert(temp['info']);
+          this.router.navigate(['student']);
+        }
+      })
   }
 }

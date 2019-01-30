@@ -2,10 +2,11 @@
     <div class="row mt-5">
         <div class="col-sm-6">
         <!-- <div class="jumbotron"> -->
+            <h3>Student Profile</h3>
             <table class="table bg-info text-white">
-                <thead>
+                <!-- <thead>
                     <th>Student profile</th>
-                </thead>
+                </thead> -->
                 <tr *ngFor="let i of data1">
                     <td>Name</td>
                     <td>{{i.firstname}}&nbsp;{{i.middlename}}&nbsp;{{i.lastname}}</td>
@@ -43,7 +44,7 @@
                 <div>
                         <ul *ngFor="let i of data1" style="list-style:none">
                             <li>
-                                <button type="button" (click)="update(i)" data-toggle="modal" data-target="#a" class="btn btn-warning">Edit Profile</button>
+                                <button type="button" (click)="update(i)" data-toggle="modal" data-target="#a" class="btn btn-warning">Edit</button>
                             </li>
                         </ul>
                 </div>

@@ -1,6 +1,7 @@
 import { Component, OnInit, DoCheck } from '@angular/core';
-import { DataService } from '../data.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient} from '@angular/common/http';
+import { NotificationsService } from '../notifications.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-adminnotifications',
@@ -9,22 +10,30 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class AdminnotificationsComponent implements OnInit,DoCheck  {
   p:number;
-  arr:any={};
+  arr:any=[];
   arr2:any={};
   notification:any;
   date:any;
   searchTerm:any;
   
 
-  sen:object[]=[];
-  constructor(private ds:DataService, private http:HttpClient){
+  
+  constructor(private http:HttpClient, private notificationsService:NotificationsService, private router:Router){
 
   }
  
   ngOnInit() {
-    this.http.get<any>('admin/adminnotifications').subscribe(temp=>{
-      this.arr=temp;
-    })
+    this.notificationsService.getAdminNotifications().subscribe(temp=>{
+      if(temp['message']=='token is not valid')
+      {
+        alert(temp['message'])
+        this.router.navigate(['home/login'])
+      }
+      else
+      {
+        this.arr=temp;
+      }
+      })
     }
     
 ngDoCheck()
@@ -37,13 +46,12 @@ ngDoCheck()
     this.notification='';
     this.date='';
     console.log(v);
-    this.http.post<any>('admin/adminnotifications',v).subscribe()
+    this.notificationsService.postAdminNotifications(v);
     
   }
   delete(v)
     {
-      var httpoptions={headers:new HttpHeaders({'Content-Type':'application/json'}),body:v};
-      this.http.delete<any[]>('admin/adminnotifications',httpoptions).subscribe();
+      this.notificationsService.deleteAdminNotificatios(v);
     }
     edit(i)
     {
@@ -52,17 +60,9 @@ ngDoCheck()
       
     }
 
-    send(y)
-    {
-        this.sen.push(y);
-        this.ds.receiveData(y);
-        this.ds.receiven(this.sen);
-    }
     save()
     {
-      console.log(this.arr2);
-      
-      this.http.put('admin/adminnotifications',this.arr2).subscribe();
+      this.notificationsService.editAdminNotifications(this.arr2);
     }
 }
 

@@ -1,7 +1,8 @@
 import { Component, OnInit, DoCheck } from '@angular/core';
-import { DataService } from '../data.service';
 import { from } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ResultsService } from '../results.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-adminresults',
@@ -12,7 +13,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 export class AdminresultsComponent implements DoCheck,OnInit  {
   p:number;
-  arr:any={};
+  arr:any=[];
   arr2:any={};
   arr3:any={};
   sname:any;
@@ -22,14 +23,20 @@ export class AdminresultsComponent implements DoCheck,OnInit  {
   enggdrawing:any;
   maths:any;
   searchingTerm:any;
-  constructor(private ds:DataService, private http:HttpClient){
-
-  }
+  constructor(private http:HttpClient, private resultService:ResultsService, private router:Router) {}
 
   ngOnInit() {
-    this.http.get<any>('admin/adminresults').subscribe(temp=>{
-      this.arr=temp;
-    })
+    this.resultService.getAdminResults().subscribe(temp=>{
+      if(temp['message']=='token is not valid')
+      {
+        alert(temp['message'])
+        this.router.navigate(['home/login'])
+      }
+      else
+      {
+        this.arr=temp;
+      }
+      })
     }
 
   ngDoCheck()
@@ -39,7 +46,7 @@ export class AdminresultsComponent implements DoCheck,OnInit  {
   addData(v)
   {
    // this.arr.push(v);
-   this.http.post<any>('admin/adminresults',v).subscribe()
+   this.resultService.postAdminResults(v);
     this.sname='';
     this.english='';
     this.physics='';
@@ -50,8 +57,7 @@ export class AdminresultsComponent implements DoCheck,OnInit  {
   }
   delete(v)
     {
-      var httpoptions={headers:new HttpHeaders({'Content-Type':'application/json'}),body:v};
-      this.http.delete<any[]>('admin/adminresults',httpoptions).subscribe();
+      this.resultService.deleteAdminResults(v);
     }
     edit(i)
     {
@@ -59,16 +65,11 @@ export class AdminresultsComponent implements DoCheck,OnInit  {
       console.log(this.arr2);
       
     }
-    send(y)
-    {
-        this.arr3.push(y);
-        this.ds.receiveData(y);
-        this.ds.receiver(this.arr3);
-    }
+    
     save()
     {
       console.log(this.arr2);
-      this.http.put<any>('admin/adminresults',this.arr2).subscribe();
+      this.resultService.editAdminResults(this.arr2);
     }
 
 }

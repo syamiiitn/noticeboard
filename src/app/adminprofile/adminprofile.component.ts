@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '../data.service';
 import { HttpClient } from '@angular/common/http';
+import { ProfileService } from '../profile.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-adminprofile',
@@ -8,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./adminprofile.component.css']
 })
 export class AdminprofileComponent implements OnInit {
-  data:any={};
+  data:any=[];
   data2:any={};
   firstname:any;
   middlename:any;
@@ -18,14 +19,22 @@ export class AdminprofileComponent implements OnInit {
   dob:any;
   gender:any;
   category:any;
-  constructor(private ds:DataService,private http:HttpClient) { }
+  constructor(private http:HttpClient, private profileService:ProfileService,private route:Router) { }
 
-  ngOnInit() {
-    console.log(this.data);this.http.get<any>('admin/adminprofile').subscribe(temp=>{
-      this.data=temp;
-    })
+  ngOnInit() 
+    {
+    this.profileService.getAdminProfile().subscribe(temp=>{
+      if(temp['message']=='token is not valid')
+      {
+        this.route.navigate(['home/login'])
+      }
+      else
+      {
+        this.data=temp;
+      }
+    });
+    }
     
-  }
   update(i)
   {
     this.data2=i;
@@ -33,7 +42,7 @@ export class AdminprofileComponent implements OnInit {
   }
   add()
   {
-    this.http.put('admin/adminprofile',this.data2).subscribe();
+    this.profileService.editAdminProfile(this.data2);
   }
 
 }
